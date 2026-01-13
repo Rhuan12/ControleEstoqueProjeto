@@ -1,7 +1,32 @@
+'use client'
+
 import Link from 'next/link'
+import { useEffect } from 'react'
+import { useRouter } from 'next/navigation'
+import { useAuth } from '@/contexts/AuthContext'
 import { Package, BarChart3, ShoppingCart, Users } from 'lucide-react'
 
 export default function HomePage() {
+  const { user, loading } = useAuth()
+  const router = useRouter()
+
+  useEffect(() => {
+    if (!loading && user) {
+      router.push('/dashboard')
+    }
+  }, [user, loading, router])
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+          <p className="text-gray-600">Carregando...</p>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
       <div className="container mx-auto px-4 py-16">
@@ -61,7 +86,7 @@ export default function HomePage() {
               Pronto para começar?
             </h2>
             <p className="text-gray-600 mb-8">
-              Sistema em desenvolvimento. Em breve disponível para uso!
+              Crie sua conta gratuitamente e comece a gerenciar seu estoque agora!
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
@@ -74,7 +99,7 @@ export default function HomePage() {
                 href="/cadastro"
                 className="bg-gray-100 text-gray-900 px-8 py-3 rounded-lg font-semibold hover:bg-gray-200 transition-colors"
               >
-                Criar Conta
+                Criar Conta Grátis
               </Link>
             </div>
           </div>
@@ -82,9 +107,9 @@ export default function HomePage() {
 
         {/* Status de Desenvolvimento */}
         <div className="mt-16 text-center">
-          <div className="inline-block bg-yellow-100 border border-yellow-300 rounded-lg px-6 py-3">
-            <p className="text-yellow-800 font-semibold">
-              🚧 Sistema em Desenvolvimento - Versão Beta
+          <div className="inline-block bg-green-100 border border-green-300 rounded-lg px-6 py-3">
+            <p className="text-green-800 font-semibold">
+              ✅ Sistema em Desenvolvimento - Autenticação Implementada!
             </p>
           </div>
         </div>
